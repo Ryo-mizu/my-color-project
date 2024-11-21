@@ -1,8 +1,23 @@
-// 色系統の定義
+// 色系統の定義（各色相に20色を設定）
 const colors = {
-    green: ['#004d00', '#006600', '#008000', '#009900', '#00b300', '#00cc00', '#00e600', '#00ff00', '#33ff33', '#66ff66'],
-    red: ['#4d0000', '#660000', '#800000', '#990000', '#b30000', '#cc0000', '#e60000', '#ff0000', '#ff3333', '#ff6666'],
-    blue: ['#00004d', '#000066', '#000080', '#000099', '#0000b3', '#0000cc', '#0000e6', '#0000ff', '#3333ff', '#6666ff']
+    green: [
+        '#004d00', '#005500', '#006600', '#007700', '#008800',
+        '#009900', '#00aa00', '#00bb00', '#00cc00', '#00dd00',
+        '#00ee00', '#00ff00', '#33ff33', '#66ff66', '#99ff99',
+        '#b3ffb3', '#ccffcc', '#99cc99', '#66cc66', '#33cc33'
+    ],
+    red: [
+        '#4d0000', '#660000', '#800000', '#990000', '#b30000',
+        '#cc0000', '#e60000', '#ff0000', '#ff3333', '#ff6666',
+        '#ff9999', '#ffb3b3', '#ffcccc', '#cc9999', '#cc6666',
+        '#cc3333', '#cc0033', '#990033', '#770033', '#550033'
+    ],
+    blue: [
+        '#00004d', '#000066', '#000080', '#000099', '#0000b3',
+        '#0000cc', '#0000e6', '#0000ff', '#3333ff', '#6666ff',
+        '#9999ff', '#b3b3ff', '#ccccff', '#9999cc', '#6666cc',
+        '#3333cc', '#0033cc', '#003399', '#003377', '#003355'
+    ]
 };
 
 // 試行回数と履歴
@@ -175,6 +190,37 @@ class ColorConverter {
     static calculateCIEDE2000(lab1, lab2) {
         return Math.sqrt((lab2.L - lab1.L) ** 2 + (lab2.a - lab1.a) ** 2 + (lab2.b - lab1.b) ** 2);
     }
+}
+
+// Google Apps Script のウェブアプリURLをここに設定
+const SERVER_URL = 'YOUR_APPS_SCRIPT_URL';
+
+function sendDataToServer(userId, trialNumber, hue, colorDifference) {
+  const payload = {
+    userId: userId,
+    trialNumber: trialNumber,
+    hue: hue,
+    colorDifference: colorDifference,
+  };
+
+  fetch(SERVER_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        console.log('データ送信成功:', data);
+      } else {
+        console.error('データ送信失敗:', data.error);
+      }
+    })
+    .catch((error) => {
+      console.error('通信エラー:', error);
+    });
 }
 
 // ページロード時に色ペアを表示
