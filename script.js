@@ -196,8 +196,6 @@ class ColorConverter {
 }
 
 
-
-
 // Google Apps Script のウェブアプリURLをここに設定
 const SERVER_URL = 'https://script.google.com/macros/s/AKfycbxT8dZzQiadEounUHM_E1ZdHECDCQxlS7AdrRUwNuUuEEAobDyREWhfDqhzVyR_zHh1/exec';
 
