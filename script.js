@@ -83,6 +83,9 @@ function handlePairSelection(selectedPair) {
     const theme = themesOrder[currentThemeIndex];
     colorDistanceHistory[theme].push(colorDistance);
 
+    // データ送信
+    sendDataToServer("uniqueUserID", trialCount, theme, colorDistance);
+
     trialCount++;
     if (trialCount % maxTrialsPerColor === 0) {
         currentThemeIndex++;
@@ -192,6 +195,14 @@ class ColorConverter {
     }
 }
 
+// ユーザIDの作成
+let userId = localStorage.getItem('userId');
+if (!userId) {
+    userId = `user_${Math.random().toString(36).substring(2, 15)}`;
+    localStorage.setItem('userId', userId);
+}
+
+
 // Google Apps Script のウェブアプリURLをここに設定
 const SERVER_URL = 'https://script.google.com/macros/s/AKfycbxT8dZzQiadEounUHM_E1ZdHECDCQxlS7AdrRUwNuUuEEAobDyREWhfDqhzVyR_zHh1/exec';
 
@@ -222,6 +233,35 @@ function sendDataToServer(userId, trialNumber, hue, colorDifference) {
       console.error('通信エラー:', error);
     });
 }
+
+function sendHistogramData() {
+    const payload = {
+        userId: localStorage.getItem('userId'),
+        histogramData: colorDistanceHistory,
+    };
+
+    fetch(SERVER_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('ヒストグラム送信成功:', data);
+    })
+    .catch(error => {
+        console.error('ヒストグラム送信失敗:', error);
+    });
+}
+
+// ヒストグラムを表示する直前に呼び出す
+function displayHistogram() {
+    sendHistogramData(); // 送信
+    // ヒストグラム表示処理
+}
+
 
 // ページロード時に色ペアを表示
 document.addEventListener('DOMContentLoaded', displayColorPair);
