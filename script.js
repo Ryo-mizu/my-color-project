@@ -256,6 +256,5 @@ function sendHistogramData() {
     });
 }
 
-
 // ページロード時に色ペアを表示
 document.addEventListener('DOMContentLoaded', displayColorPair);
