@@ -256,12 +256,6 @@ function sendHistogramData() {
     });
 }
 
-// ヒストグラムを表示する直前に呼び出す
-function displayHistogram() {
-    sendHistogramData(); // 送信
-    // ヒストグラム表示処理
-}
-
 
 // ページロード時に色ペアを表示
 document.addEventListener('DOMContentLoaded', displayColorPair);
