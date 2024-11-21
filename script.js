@@ -195,12 +195,7 @@ class ColorConverter {
     }
 }
 
-// ユーザIDの作成
-let userId = localStorage.getItem('userId');
-if (!userId) {
-    userId = `user_${Math.random().toString(36).substring(2, 15)}`;
-    localStorage.setItem('userId', userId);
-}
+
 
 
 // Google Apps Script のウェブアプリURLをここに設定
