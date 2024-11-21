@@ -1,27 +1,53 @@
-.colorContainer {
-    display: flex; /* 横並びに配置 */
-    margin-top: 20px; /* 上部にスペースを追加 */
-    justify-content: center; /* 中央揃え */
+body {
+    background-color: #808080;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
-.colorGroup {
-    display: flex; /* グループ内も横並びに配置 */
-    flex-direction: column; /* 縦方向に色を配置する場合は 'column' */
-    margin-right: 50px; /* グループ間にスペースを追加 */
-    align-items: center; /* グループ内を中央揃え */
+.colorContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px; /* 左右ペアの間隔 */
+    margin-top: 20px;
+}
+
+.colorBoxPair {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.colorBoxPair:hover {
+    transform: scale(1.1); /* ペア全体を拡大 */
 }
 
 .colorBox {
-    width: 200px; /* ボックスの幅 */
-    height: 200px; /* ボックスの高さ */
-    margin: 10px; /* ボックス間のスペース */
-    border: 2px solid #000; /* 枠線の追加 */
-    border-radius: 8px; /* 角丸 */
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* 軽い影を追加 */
-    cursor: pointer; /* クリック可能であることを示すカーソル */
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: box-shadow 0.2s ease-in-out;
 }
 
 .colorBox:hover {
-    transform: scale(1.05); /* ホバー時に少し拡大 */
-    transition: transform 0.2s ease-in-out; /* 拡大時のアニメーション */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#chartContainer {
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+canvas {
+    margin: 10px;
+    width: 300px;
+    height: 200px;
 }
