@@ -40,6 +40,7 @@ function displayColorPair() {
     const colorContainer = document.getElementById('colorContainer');
     colorContainer.innerHTML = ''; // コンテナをクリア
 
+    // 全試行が終了した場合
     if (trialCount >= maxTrialsPerColor * themesOrder.length) {
         displayHistogram();
         return;
@@ -74,6 +75,27 @@ function createColorPair(colors) {
     return pair;
 }
 
+
+let userId = ""; // ユーザーIDを保持
+
+// 試行を開始する関数
+function startTrial() {
+    const input = document.getElementById('userId');
+    userId = input.value.trim();
+
+    if (!userId) {
+        alert("IDを入力してください。");
+        return;
+    }
+    // ID入力フォームを非表示にし、試行画面を表示
+    document.getElementById('idInputContainer').style.display = 'none';
+    document.getElementById('trialContainer').style.display = 'block';
+
+    // 試行を開始
+    displayColorPair();
+}
+
+
 // ペア選択時の処理
 function handlePairSelection(selectedPair) {
     const rgbColors = selectedPair.map(color => ColorConverter.hexToRgb(color));
@@ -83,98 +105,26 @@ function handlePairSelection(selectedPair) {
     const theme = themesOrder[currentThemeIndex];
     colorDistanceHistory[theme].push(colorDistance);
 
-    // データ送信
-    sendDataToServer("uniqueUserID", trialCount, theme, colorDistance);
-
+    // 試行回数を更新
     trialCount++;
+
+    // 次の色系統に移動する条件
     if (trialCount % maxTrialsPerColor === 0) {
         currentThemeIndex++;
+        if (currentThemeIndex >= themesOrder.length) {
+            displayHistogram(); // すべての色系統が終了した場合
+            return;
+        }
     }
 
+    // 次のペアを表示
     displayColorPair();
 }
 
-// ヒストグラムを表示
-function displayHistogram() {
-    const colorContainer = document.getElementById('colorContainer');
-    colorContainer.innerHTML = '<h2>色差ヒストグラム（緑、赤、青系統）</h2>';
 
-    const canvasContainer = document.createElement('div');
-    canvasContainer.style.display = 'flex';
-    canvasContainer.style.flexWrap = 'wrap';
-    canvasContainer.style.justifyContent = 'center';
-    canvasContainer.style.gap = '30px'; // 各グラフ間に余白を追加
+// ページロード時に初期化
+document.addEventListener('DOMContentLoaded', displayColorPair);
 
-    // 各色系統についてヒストグラムを表示
-    ['green', 'red', 'blue'].forEach(theme => {
-        const canvasWrapper = document.createElement('div');
-        canvasWrapper.style.width = '800px'; // 各グラフの幅を広げる
-        canvasWrapper.style.height = '400px'; // 各グラフの高さを広げる
-        canvasWrapper.style.display = 'flex';
-        canvasWrapper.style.justifyContent = 'center';
-        canvasWrapper.style.alignItems = 'center';
-        canvasWrapper.style.border = '1px solid #ccc'; // グラフ周りに枠線を追加
-        canvasWrapper.style.borderRadius = '10px'; // グラフの枠を丸みを帯びたデザインに
-        canvasWrapper.style.backgroundColor = '#f9f9f9'; // 背景色を白っぽく設定
-
-        const canvas = document.createElement('canvas');
-        canvasWrapper.appendChild(canvas);
-        canvasContainer.appendChild(canvasWrapper);
-
-        const binSize = 4; // 色差の範囲（ビン幅を10に設定）
-        const maxBin = 80; // 横軸の最大値を100に固定
-        const bins = Array(maxBin / binSize).fill(0); // 最大値100を基準にビンを作成
-
-        colorDistanceHistory[theme].forEach(distance => {
-            const index = Math.min(Math.floor(distance / binSize), bins.length - 1);
-            bins[index]++;
-        });
-
-        const labels = bins.map((_, i) => `${i * binSize}〜${(i + 1) * binSize}`);
-        const counts = bins.map(count => count); // 選ばれた回数をそのまま表示
-
-        new Chart(canvas, {
-            type: 'bar',
-            data: {
-                labels: labels, // 色差の範囲をラベルとして使用
-                datasets: [{
-                    label: `${theme}系統の色差`,
-                    data: counts,
-                    backgroundColor: theme === 'green' ? 'rgba(0, 128, 0, 0.7)' : theme === 'red' ? 'rgba(255, 0, 0, 0.7)' : 'rgba(0, 0, 255, 0.7)', // 色系統ごとに色を設定
-                    borderColor: theme === 'green' ? 'rgba(0, 128, 0, 1)' : theme === 'red' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255, 1)', // 枠線の色
-                    borderWidth: 1 // 枠線の太さを1に設定
-                }]
-            },
-            options: {
-                responsive: true, // レスポンシブ対応（画面サイズに応じてグラフのサイズが調整される）
-                maintainAspectRatio: false, // アスペクト比を固定せずに自由に調整可能にする
-                scales: {
-                    x: {
-                        title: { display: true, text: '色差の範囲' },
-                        ticks: { stepSize: 4, max: 80 }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        min: 0,
-                        max: 10,
-                        title: { display: true, text: '選ばれた回数' }
-                    }
-                },
-                plugins: {
-                    legend: { display: true },
-                    tooltip: {
-                        enabled: true,
-                        callbacks: {
-                            label: tooltipItem => `回数: ${tooltipItem.raw}`
-                        }
-                    }
-                }
-            }
-        });
-    });
-
-    colorContainer.appendChild(canvasContainer);
-}
 
 // 色差計算用クラス
 class ColorConverter {
@@ -196,58 +146,118 @@ class ColorConverter {
 }
 
 
-// Google Apps Script のウェブアプリURLをここに設定
-const SERVER_URL = 'https://script.google.com/macros/s/AKfycbxT8dZzQiadEounUHM_E1ZdHECDCQxlS7AdrRUwNuUuEEAobDyREWhfDqhzVyR_zHh1/exec';
+// ヒストグラムを表示
+function displayHistogram() {
+    const colorContainer = document.getElementById('colorContainer');
+    colorContainer.innerHTML = '<h2>色差ヒストグラム（緑、赤、青系統）</h2>';
 
-function sendDataToServer(userId, trialNumber, hue, colorDifference) {
-  const payload = {
-    userId: userId,
-    trialNumber: trialNumber,
-    hue: hue,
-    colorDifference: colorDifference,
-  };
+    const canvasContainer = document.createElement('div');
+    canvasContainer.style.display = 'flex';
+    canvasContainer.style.flexWrap = 'wrap';
+    canvasContainer.style.justifyContent = 'center';
+    canvasContainer.style.gap = '50px'; // 各グラフ間に余白を追加
 
-  fetch(SERVER_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        console.log('データ送信成功:', data);
-      } else {
-        console.error('データ送信失敗:', data.error);
-      }
-    })
-    .catch((error) => {
-      console.error('通信エラー:', error);
+    // 各色系統についてヒストグラムを表示
+    ['green', 'red', 'blue'].forEach(theme => {
+        const canvasWrapper = document.createElement('div');
+        canvasWrapper.style.width = '600px'; // 各グラフの幅を調整
+        canvasWrapper.style.height = '300px'; // 各グラフの高さを調整
+        canvasWrapper.style.display = 'flex';
+        canvasWrapper.style.justifyContent = 'center';
+        canvasWrapper.style.alignItems = 'center';
+        canvasWrapper.style.border = '1px solid #ccc'; // グラフ周りに枠線を追加
+        canvasWrapper.style.borderRadius = '10px'; // グラフの枠を丸みを帯びたデザインに
+        canvasWrapper.style.backgroundColor = '#f9f9f9'; // 背景色を白っぽく設定
+
+        const canvas = document.createElement('canvas');
+        canvasWrapper.appendChild(canvas);
+        canvasContainer.appendChild(canvasWrapper);
+
+        const binSize = 4; // 色差の範囲（ビン幅を4に設定）
+        const maxBin = 80; // 横軸の最大値を80に固定
+        const bins = Array(maxBin / binSize).fill(0); // 最大値80を基準にビンを作成
+
+        colorDistanceHistory[theme].forEach(distance => {
+            const index = Math.min(Math.floor(distance / binSize), bins.length - 1);
+            bins[index]++;
+        });
+
+        const labels = bins.map((_, i) => `${i * binSize}〜${(i + 1) * binSize}`);
+        const counts = bins;
+
+        new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: `${theme}系統の色差`,
+                    data: counts,
+                    backgroundColor: theme === 'green' ? 'rgba(0, 128, 0, 0.7)' : theme === 'red' ? 'rgba(255, 0, 0, 0.7)' : 'rgba(0, 0, 255, 0.7)',
+                    borderColor: theme === 'green' ? 'rgba(0, 128, 0, 1)' : theme === 'red' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10, // 縦軸の最大値を10に固定
+                        title: { display: true, text: '選ばれた回数' },
+                        ticks: {
+                            stepSize: 1, // 縦軸を1単位で表示
+                        }
+                    },
+                    x: {
+                        title: { display: true, text: '色差の範囲' }
+                    }
+                },
+                plugins: {
+                    legend: { display: true, position: 'top' },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: tooltipItem => `回数: ${tooltipItem.raw}`
+                        }
+                    }
+                }
+            }
+        });
     });
+
+    colorContainer.appendChild(canvasContainer);
+
+    // Excelダウンロードを実行
+    downloadExcel();
 }
 
-function sendHistogramData() {
-    const payload = {
-        userId: localStorage.getItem('userId'),
-        histogramData: colorDistanceHistory,
-    };
 
-    fetch(SERVER_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('ヒストグラム送信成功:', data);
-    })
-    .catch(error => {
-        console.error('ヒストグラム送信失敗:', error);
+// Excelファイルをダウンロード
+function downloadExcel() {
+    const workbook = XLSX.utils.book_new(); // 新しいワークブックを作成
+
+    // すべての試行データを1つのシートにまとめる
+    const allData = [];
+    let trialNumber = 1; // 試行番号を管理
+
+    ['green', 'red', 'blue'].forEach(theme => {
+        colorDistanceHistory[theme].forEach(distance => {
+            allData.push({
+                ユーザーID: userId, // ユーザーIDを追加
+                試行番号: trialNumber++, // 試行番号
+                色相: theme, // 色相
+                色差: distance.toFixed(2) // 色差を小数点2桁で表示
+            });
+        });
     });
+
+    // ワークシートを作成
+    const worksheet = XLSX.utils.json_to_sheet(allData);
+    XLSX.utils.book_append_sheet(workbook, worksheet, '試行結果');
+
+    // Excelファイルをエクスポート
+    XLSX.writeFile(workbook, 'color_trial_results.xlsx');
 }
 
-// ページロード時に色ペアを表示
-document.addEventListener('DOMContentLoaded', displayColorPair);
+

@@ -7,13 +7,22 @@
     <link rel="stylesheet" href="./style.css">
     <script src="script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
    
 </head>
+
 <body>
-    <h1>色のペアを選んでください</h1>
-    <div id="colorContainer" class="colorContainer"></div>
     <div id="chartContainer"></div>
     <script src="script.js"></script>
+    <div id="idInputContainer" style="text-align: center; margin-top: 20px;">
+        <label for="userId">IDを入力してください: </label>
+        <input type="text" id="userId" placeholder="例: user123">
+        <button onclick="startTrial()">試行を開始</button>
+    </div>
+    <div id="trialContainer" style="display: none;">
+        <h1>色のペアを選んでください</h1>
+        <div id="colorContainer" class="colorContainer"></div>
+    </div>
 </body>
+
 </html>
