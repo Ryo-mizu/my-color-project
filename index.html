@@ -12,19 +12,23 @@
 </head>
 
 <body>
-    <div id="chartContainer"></div>
-    <script src="script.js"></script>
-    <div id="idInputContainer" style="text-align: center; margin-top: 20px;">
+    <!-- ヒストグラム表示セクション -->
+    <div id="chartContainer" style="margin-bottom: 30px;">
+        <!-- ヒストグラムがここに描画される -->
+    </div>
+
+    <!-- ID入力セクション -->
+    <div id="idInputContainer" style="text-align: center; margin-bottom: 30px;">
         <label for="userId">IDを入力してください: </label>
         <input type="text" id="userId" placeholder="例: user123">
         <button onclick="startTrial()">試行を開始</button>
     </div>
-    <div id="trialContainer" style="display: none;">
-        <h1>色のペアを選んでください</h1>
+
+    <!-- カラーボックスセクション -->
+    <div id="trialContainer" style="display: none; text-align: center;">
+
         <div id="colorContainer" class="colorContainer"></div>
     </div>
-    
-
 </body>
 
 </html>

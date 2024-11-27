@@ -228,8 +228,8 @@ function displayHistogram() {
         canvasContainer.appendChild(canvasWrapper);
 
 
-        const binSize = 2;
-        const maxBin = 80;
+        const binSize = 4;
+        const maxBin = 160;
         const bins = Array(maxBin / binSize).fill(0);
 
         if (colorDistanceHistory[theme]) {
@@ -318,6 +318,3 @@ function downloadExcel() {
     // Excelファイルをエクスポート
     XLSX.writeFile(workbook, `color_trial_results_${userId}.xlsx`);
 }
-
-
-
