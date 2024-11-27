@@ -2,11 +2,14 @@ body {
     background-color: #808080;
     font-family: Arial, sans-serif;
     margin: 0;
+    padding: 0; /* 全体の余白を削除 */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    justify-content: flex-start; /* 上から配置を開始 */
+    min-height: 100vh; /* コンテンツが画面の高さを超える場合も対応 */
+    box-sizing: border-box;
+    overflow-y: auto; /* ページ全体のスクロールを有効にする */
 }
 
 .colorContainer {
@@ -38,17 +41,32 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+
 #chartContainer {
-    width: 80%;
-    margin: 20px auto;
+    width: 100%; /* ヒストグラムのコンテナ全体を画面幅に合わせる */
+    margin: 0 auto; /* コンテナを中央に配置 */
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* ヒストグラムを自動で折り返し配置 */
+    justify-content: flex-start; /* ヒストグラムを左詰めで配置 */
+    gap: 30px; /* 各グラフ間の余白を設定 */
+    padding: 20px; /* ヒストグラム全体に内部余白を追加 */
+    box-sizing: border-box; /* パディングを含めてサイズを計算 */
+    overflow-y: auto; /* 必要に応じて縦スクロールを許可 */
 }
 
 canvas {
-    margin: 10px;
-    width: 300px;
-    height: 200px;
+    margin: 10px; /* ヒストグラムの周囲に余白を追加 */
+    width: 1000px; /* 各ヒストグラムの幅を適切に設定 */
+    height: 700px; /* 各ヒストグラムの高さを適切に設定 */
+    background-color: #ffffff; /* グラフ背景を白に設定 */
+    border: 1px solid #cccccc; /* ヒストグラムの枠線 */
+    border-radius: 8px; /* ヒストグラムの角を丸くする */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ヒストグラムに軽い影を追加 */
 }
 
+footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #ddd;
+}

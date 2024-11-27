@@ -1,33 +1,90 @@
 // 色系統の定義（各色相に20色を設定）
 const colors = {
-    green: [
-        '#004d00', '#005500', '#006600', '#007700', '#008800',
-        '#009900', '#00aa00', '#00bb00', '#00cc00', '#00dd00',
-        '#00ee00', '#00ff00', '#33ff33', '#66ff66', '#99ff99',
-        '#b3ffb3', '#ccffcc', '#99cc99', '#66cc66', '#33cc33'
+        red: [
+        '#ff0000', '#e60000', '#cc0000', '#b30000', '#990000',
+        '#800000', '#ff3333', '#ff6666', '#ff9999', '#ffcccc',
+        '#cc3333', '#b32424', '#800000', '#a10000', '#ff5555',
+        '#ff4444', '#ff8888', '#cc4444', '#990033', '#990000'
     ],
-    red: [
-        '#4d0000', '#660000', '#800000', '#990000', '#b30000',
-        '#cc0000', '#e60000', '#ff0000', '#ff3333', '#ff6666',
-        '#ff9999', '#ffb3b3', '#ffcccc', '#cc9999', '#cc6666',
-        '#cc3333', '#cc0033', '#990033', '#770033', '#550033'
+    redOrange: [
+        '#ff4500', '#ff5722', '#e64a19', '#d84315', '#bf360c',
+        '#ff7043', '#ff8a65', '#ff9e80', '#d2691e', '#cd5c5c',
+        '#ff6347', '#e57373', '#ff7f50', '#ff6f61', '#ff8b75',
+        '#ff9770', '#d45a00', '#bf4a00', '#a64000', '#ff5e13'
+    ],
+    orange: [
+        '#ffa500', '#ffb84d', '#ffcc66', '#ffe080', '#ffe699',
+        '#ff9900', '#ffab40', '#ffbf80', '#ffcc99', '#ffd699',
+        '#ff8844', '#e57300', '#e65100', '#c46000', '#bf6910',
+        '#b36200', '#a64d00', '#9c3c00', '#cf601f', '#e88832'
+    ],
+    yellowOrange: [
+        '#ffd700', '#ffcc00', '#ffb400', '#ffbb33', '#ffd966',
+        '#ffe680', '#ffcc33', '#ffdb4d', '#ffeb66', '#ffeb99',
+        '#ffc400', '#ffbf00', '#ffa500', '#ffaa00', '#e6ac00',
+        '#d9a300', '#bf9b30', '#a68922', '#cca000', '#e3b000'
+    ],
+    yellow: [
+        '#ffff00', '#fff700', '#ffee00', '#ffe500', '#ffdc00',
+        '#ffd300', '#fdd835', '#ffee58', '#ffff72', '#ffff8d',
+        '#ffcc00', '#ffca28', '#ffab00', '#f57f17', '#ffecb3',
+        '#fff9c4', '#f0f8b5', '#e0eb00', '#ffe000', '#ffff77'
+    ],
+    yellowGreen: [
+        '#9acd32', '#8bc34a', '#7cb342', '#689f38', '#558b2f',
+        '#8ed81d', '#ace41b', '#b7d84c', '#d7ea48', '#c9e764',
+        '#aee554', '#9ada39', '#8ad010', '#6a9b23', '#6dc66d',
+        '#81d870', '#addb86', '#c1ec86', '#bbe381', '#cde869'
+    ],
+    green: [
+        '#008000', '#006400', '#228b22', '#2e8b57', '#00ff00',
+        '#32cd32', '#3cb371', '#66cdaa', '#8fbc8f', '#7cfc00',
+        '#76b041', '#5ca43a', '#3c8039', '#3a9c54', '#7ecb7e',
+        '#9bf59b', '#6de66d', '#63c263', '#7ee87e', '#63db63'
+    ],
+    blueGreen: [
+        '#0ff', '#40e0d0', '#48d1cc', '#20b2aa', '#00ced1',
+        '#00b7eb', '#00e5ee', '#97ffff', '#76eec6', '#afeeee',
+        '#34deeb', '#20b6c9', '#62cce0', '#81e1db', '#63f3f3',
+        '#80dbdb', '#60dfdf', '#64dcdc', '#69e8e8', '#40cccc'
     ],
     blue: [
-        '#00004d', '#000066', '#000080', '#000099', '#0000b3',
-        '#0000cc', '#0000e6', '#0000ff', '#3333ff', '#6666ff',
-        '#9999ff', '#b3b3ff', '#ccccff', '#9999cc', '#6666cc',
-        '#3333cc', '#0033cc', '#003399', '#003377', '#003355'
+        '#0000ff', '#1e90ff', '#6495ed', '#4169e1', '#0000cd',
+        '#4682b4', '#5f9ea0', '#7b68ee', '#00bfff', '#87cefa',
+        '#4688d4', '#5c87e8', '#4869e3', '#6f9ce3', '#4c7ce9',
+        '#5aa3ed', '#3e7fe0', '#637fcb', '#5c95e8', '#4f83e6'
+    ],
+    blueViolet: [
+        '#8a2be2', '#9370db', '#7b68ee', '#6a5acd', '#663399',
+        '#9400d3', '#9932cc', '#ba55d3', '#dda0dd', '#ee82ee',
+        '#8850cc', '#7745b2', '#7f49d6', '#8551cf', '#7050c0',
+        '#6f42d5', '#7656dc', '#804fd6', '#8052db', '#9d5be6'
+    ],
+    violet: [
+        '#800080', '#9932cc', '#dda0dd', '#ee82ee', '#d8bfd8',
+        '#e6add9', '#d6acd9', '#c39fbe', '#bf94c3', '#bdb0c5',
+        '#c399d1', '#dbb6da', '#e4aedc', '#ca86c8', '#cd8ed1',
+        '#b76bce', '#9a69bc', '#836fb3', '#aa7db8', '#b594c3'
+    ],
+    redViolet: [
+        '#ff1493', '#ff69b4', '#db7093', '#c71585', '#d02090',
+        '#e75480', '#ff5d8e', '#ff80ab', '#f8a1d2', '#f07ebf',
+        '#df647f', '#d64677', '#d8466d', '#d93871', '#d13962',
+        '#c63367', '#ce3475', '#d14468', '#e14482', '#db507c'
     ]
 };
 
 // 試行回数と履歴
 let trialCount = 0;
-const maxTrialsPerColor = 10; // 各色系統の最大試行回数
-let colorDistanceHistory = { green: [], red: [], blue: [] };
+const maxTrialsPerColor = 40; // 各色系統の最大試行回数
+let colorDistanceHistory = {red: [], redOrange: [], orange: [], yellowOrange: [], yellow: [],
+    yellowGreen: [], green: [], blueGreen: [], blue: [], blueViolet: [],
+    violet: [], redViolet: []};
 
 // 現在表示中の色系統
 let currentThemeIndex = 0;
-let themesOrder = ['green', 'red', 'blue']; // 色系統の順番
+let themesOrder = ['red', 'redOrange', 'orange', 'yellowOrange', 'yellow',
+    'yellowGreen', 'green', 'blueGreen', 'blue', 'blueViolet', 'violet', 'redViolet']; // 色系統の順番
 
 // ランダムに4色を取得する関数
 function getRandomColors() {
@@ -145,42 +202,42 @@ class ColorConverter {
     }
 }
 
-
 // ヒストグラムを表示
 function displayHistogram() {
     const colorContainer = document.getElementById('colorContainer');
-    colorContainer.innerHTML = '<h2>色差ヒストグラム（緑、赤、青系統）</h2>';
+    colorContainer.innerHTML = '<h2>色差ヒストグラム（12色相）</h2>';
 
     const canvasContainer = document.createElement('div');
     canvasContainer.style.display = 'flex';
-    canvasContainer.style.flexWrap = 'wrap';
-    canvasContainer.style.justifyContent = 'center';
-    canvasContainer.style.gap = '50px'; // 各グラフ間に余白を追加
+    canvasContainer.style.flexDirection = 'column';
+    canvasContainer.style.alignItems = 'center';
+    canvasContainer.style.gap = '50px'; // ヒストグラム間の余白
 
-    // 各色系統についてヒストグラムを表示
-    ['green', 'red', 'blue'].forEach(theme => {
+    themesOrder.forEach(theme => {
         const canvasWrapper = document.createElement('div');
-        canvasWrapper.style.width = '600px'; // 各グラフの幅を調整
-        canvasWrapper.style.height = '300px'; // 各グラフの高さを調整
-        canvasWrapper.style.display = 'flex';
-        canvasWrapper.style.justifyContent = 'center';
-        canvasWrapper.style.alignItems = 'center';
-        canvasWrapper.style.border = '1px solid #ccc'; // グラフ周りに枠線を追加
-        canvasWrapper.style.borderRadius = '10px'; // グラフの枠を丸みを帯びたデザインに
-        canvasWrapper.style.backgroundColor = '#f9f9f9'; // 背景色を白っぽく設定
+        canvasWrapper.style.width = '1000px';
+        canvasWrapper.style.height = '700px';
+        canvasWrapper.style.border = '1px solid #ccc';
+        canvasWrapper.style.borderRadius = '10px';
+        canvasWrapper.style.backgroundColor = '#fff';
+        canvasWrapper.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        canvasWrapper.style.padding = '10px'; // 内側の余白を追加
 
         const canvas = document.createElement('canvas');
         canvasWrapper.appendChild(canvas);
         canvasContainer.appendChild(canvasWrapper);
 
-        const binSize = 4; // 色差の範囲（ビン幅を4に設定）
-        const maxBin = 80; // 横軸の最大値を80に固定
-        const bins = Array(maxBin / binSize).fill(0); // 最大値80を基準にビンを作成
 
-        colorDistanceHistory[theme].forEach(distance => {
-            const index = Math.min(Math.floor(distance / binSize), bins.length - 1);
-            bins[index]++;
-        });
+        const binSize = 2;
+        const maxBin = 80;
+        const bins = Array(maxBin / binSize).fill(0);
+
+        if (colorDistanceHistory[theme]) {
+            colorDistanceHistory[theme].forEach(distance => {
+                const index = Math.min(Math.floor(distance / binSize), bins.length - 1);
+                bins[index]++;
+            });
+        }
 
         const labels = bins.map((_, i) => `${i * binSize}〜${(i + 1) * binSize}`);
         const counts = bins;
@@ -192,8 +249,8 @@ function displayHistogram() {
                 datasets: [{
                     label: `${theme}系統の色差`,
                     data: counts,
-                    backgroundColor: theme === 'green' ? 'rgba(0, 128, 0, 0.7)' : theme === 'red' ? 'rgba(255, 0, 0, 0.7)' : 'rgba(0, 0, 255, 0.7)',
-                    borderColor: theme === 'green' ? 'rgba(0, 128, 0, 1)' : theme === 'red' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255, 1)',
+                    backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.7)`,
+                    borderColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 1)`,
                     borderWidth: 1
                 }]
             },
@@ -203,11 +260,8 @@ function displayHistogram() {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        max: 10, // 縦軸の最大値を10に固定
-                        title: { display: true, text: '選ばれた回数' },
-                        ticks: {
-                            stepSize: 1, // 縦軸を1単位で表示
-                        }
+                        max: Math.max(...counts, 20),
+                        title: { display: true, text: '選ばれた回数' }
                     },
                     x: {
                         title: { display: true, text: '色差の範囲' }
@@ -225,15 +279,12 @@ function displayHistogram() {
             }
         });
     });
+    downloadExcel(); // ヒストグラム表示後にExcelをダウンロード
 
     colorContainer.appendChild(canvasContainer);
-
-    // Excelダウンロードを実行
-    downloadExcel();
 }
 
 
-// Excelファイルをダウンロード
 function downloadExcel() {
     const workbook = XLSX.utils.book_new(); // 新しいワークブックを作成
 
@@ -241,23 +292,32 @@ function downloadExcel() {
     const allData = [];
     let trialNumber = 1; // 試行番号を管理
 
-    ['green', 'red', 'blue'].forEach(theme => {
-        colorDistanceHistory[theme].forEach(distance => {
-            allData.push({
-                ユーザーID: userId, // ユーザーIDを追加
-                試行番号: trialNumber++, // 試行番号
-                色相: theme, // 色相
-                色差: distance.toFixed(2) // 色差を小数点2桁で表示
+    // 全色相についてデータを収集
+    themesOrder.forEach(theme => {
+        if (colorDistanceHistory[theme] && colorDistanceHistory[theme].length > 0) {
+            colorDistanceHistory[theme].forEach(distance => {
+                allData.push({
+                    ユーザーID: userId, // ユーザーIDを追加
+                    試行番号: trialNumber++, // 試行番号
+                    色相: theme, // 色相
+                    色差: distance.toFixed(2) // 色差を小数点2桁で表示
+                });
             });
-        });
+        }
     });
+
+    if (allData.length === 0) {
+        alert('ダウンロードするデータがありません。');
+        return;
+    }
 
     // ワークシートを作成
     const worksheet = XLSX.utils.json_to_sheet(allData);
     XLSX.utils.book_append_sheet(workbook, worksheet, '試行結果');
 
     // Excelファイルをエクスポート
-    XLSX.writeFile(workbook, 'color_trial_results.xlsx');
+    XLSX.writeFile(workbook, `color_trial_results_${userId}.xlsx`);
 }
+
 
 
